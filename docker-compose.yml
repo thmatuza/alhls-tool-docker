@@ -11,8 +11,6 @@ services:
     volumes:
       - ./data/nginx:/etc/nginx/conf.d
       - ./webroot:/var/www/html
-    extra_hosts:
-      - "streaming.example.com:${DOCKER_HOST_IP}"
   app:
     image: php:7-fpm
     volumes:
