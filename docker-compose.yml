@@ -1,0 +1,30 @@
+version: '3'
+services:
+  nginx:
+    build: ./web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./webroot:/var/www/html
+    extra_hosts:
+      - "streaming.example.com:${DOCKER_HOST_IP}"
+  app:
+    image: php:7-fpm
+    volumes:
+      - ./webroot:/var/www/html
+  dnsmasq:
+    restart: always
+    image: andyshinn/dnsmasq
+    container_name: dnsmasq
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    cap_add:
+      - NET_ADMIN
+    extra_hosts:
+      - "streaming.example.com:${DOCKER_HOST_IP}"
