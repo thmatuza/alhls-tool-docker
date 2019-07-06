@@ -69,3 +69,20 @@ You can check access log with:
 docker-compose logs -f
 ```
 It helps you to understand how Low Latency HLS works.
+
+## Use your own domain and certificate.
+If you have your own trusted certificate and key with your domain, you can use it.
+Just replace webroot/server.crt and webroot/server.key with your certiricate and key.
+And replace streaming.example.com with your FQDN.
+
+I coudn't manage to use [Charles](https://www.charlesproxy.com/) with the self signed certiricate that my init.sh creates. However, it works with a trusted certificate.
+
+## Change tsrecompressor and mediastreamsegmenter options
+It is interesting to change values of `target duration` and `partial target duration`. You can do it with replacing `PART_TARGET_DURATION` and `TARGET_DURATION` on run.sh.
+
+If you want to use capture input instead of the default sample video, you can do it by adding `-c` to COMPRESSOR_COMMAND on run.sh
+
+You can see more detail with:
+```
+$ tsrecompressor --help
+```
